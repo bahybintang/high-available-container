@@ -1,0 +1,36 @@
+version: '2'
+
+services:
+    host_a:
+        container_name: host-a
+        build: host-a
+        cap_add:
+            - NET_ADMIN
+            - NET_BROADCAST
+        networks:
+            - vrrp
+
+    host_b:
+        container_name: host-b
+        build: host-b
+        cap_add:
+            - NET_ADMIN
+            - NET_BROADCAST
+        networks:
+            - vrrp
+
+    # Create jumpbox container
+    # that can access host_a and host_b
+    jumpbox:
+        container_name: jumpbox
+        image: curlimages/curl
+        command: sleep 3600
+        networks:
+            - vrrp
+
+networks:
+    vrrp:
+        ipam:
+            config:
+                - subnet: 192.168.69.0/24
+                  gateway: 192.168.69.1
