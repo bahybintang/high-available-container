@@ -13,4 +13,7 @@ COPY index.php /app
 # Make sure keepalived will run
 COPY keepalived-supervisord.conf /opt/docker/etc/supervisor.d
 
+# Copy notification script
+COPY notify_master.sh /etc/keepalived
+
 EXPOSE 80
